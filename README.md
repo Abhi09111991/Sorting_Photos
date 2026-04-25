@@ -2,7 +2,7 @@
 
 Automatically sort thousands of animal photos into folders using AI.
 
-This tool scans your images, पहचान the animal, and organizes them into folders like:
+This tool scans your images, recognize the animal, and organizes them into folders like:
 
 ```
 sorted_photos/
