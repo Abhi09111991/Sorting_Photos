@@ -1,0 +1,65 @@
+# Python
+
+**pycache**/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+
+.venv/
+venv/
+env/
+
+# uv
+
+.uv/
+.python-version
+
+# Build / packaging
+
+build/
+dist/
+*.egg-info/
+
+# Logs
+
+*.log
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# IDEs
+
+.vscode/
+.idea/
+
+# Jupyter (if you ever use it)
+
+.ipynb_checkpoints/
+
+# Model / large files (IMPORTANT)
+
+*.pt
+*.pth
+*.onnx
+
+# Images / datasets (VERY IMPORTANT)
+
+data/
+datasets/
+images/
+sorted_photos/
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.bmp
+
+# Temporary files
+
+tmp/
+temp/
+

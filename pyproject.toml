@@ -1,0 +1,21 @@
+[project]
+name = "sorting-photos"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "abhi09111991", email = "hada.abhinavsingh@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "pillow>=12.2.0",
+    "torchvision>=0.26.0",
+    "tqdm>=4.67.3",
+]
+
+[project.scripts]
+sorting-photos = "sorting_photos:main"
+
+[build-system]
+requires = ["uv_build>=0.11.1,<0.12.0"]
+build-backend = "uv_build"
