@@ -7,9 +7,35 @@ from tqdm import tqdm
 
 import torch
 from torchvision.models import efficientnet_b0, EfficientNet_B0_Weights
+from torchvision.models import vit_b_16, ViT_B_16_Weights
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 
+ANIMAL_KEYWORDS = {
+    "dog", "cat", "lion", "tiger", "leopard", "cheetah", "jaguar",
+    "pig", "hog", "boar", "cow", "ox", "bull", "buffalo", "bison",
+    "horse", "zebra", "donkey", "sheep", "goat", "deer", "elephant",
+    "bear", "wolf", "fox", "monkey", "ape", "gorilla", "chimpanzee",
+    "panda", "koala", "kangaroo", "rabbit", "hare", "squirrel",
+    "mouse", "rat", "hamster", "beaver", "otter", "raccoon",
+    "bird", "eagle", "hawk", "owl", "duck", "goose", "swan",
+    "chicken", "hen", "rooster", "turkey", "peacock", "parrot",
+    "snake", "lizard", "crocodile", "alligator", "turtle", "frog",
+    "fish", "shark", "whale", "dolphin", "seal", "penguin",
+}
+
+ANIMAL_KEYWORDS.update({
+    "stork", "grouse", "partridge", "prairie chicken",
+    "sturgeon", "dragonfly", "frog", "buffalo",
+    "antelope", "gazelle", "ibex", "ram",
+    "crane", "flamingo", "heron", "pelican",
+    "bee", "beetle", "butterfly", "moth",
+    "insect", "spider", "scorpion",
+})
+
+def looks_like_animal(label: str) -> bool:
+    label = label.lower().replace("_", " ")
+    return any(keyword in label for keyword in ANIMAL_KEYWORDS)
 
 def safe_folder_name(name: str) -> str:
     return (
@@ -62,11 +88,23 @@ def ask_yes_no(prompt: str, default: bool = False) -> bool:
     return value in {"y", "yes"}
 
 
-def load_model():
-    print("Loading AI model...")
+# def load_model():
+#    print("Loading AI model...")
+#
+#    weights = EfficientNet_B0_Weights.DEFAULT
+#    model = efficientnet_b0(weights=weights)
+#    model.eval()
+#
+#    preprocess = weights.transforms()
+#    labels = weights.meta["categories"]
+#
+#    return model, preprocess, labels
 
-    weights = EfficientNet_B0_Weights.DEFAULT
-    model = efficientnet_b0(weights=weights)
+def load_model():
+    print("Loading Vision Transformer model...")
+
+    weights = ViT_B_16_Weights.DEFAULT
+    model = vit_b_16(weights=weights)
     model.eval()
 
     preprocess = weights.transforms()
@@ -105,6 +143,12 @@ def sort_photos(input_dir: Path, output_dir: Path, confidence: float, move_files
 
             if score < confidence:
                 folder_name = "unknown_review"
+                print(f"[UNKNOWN] {image_path.name} → {label} ({score:.2f})")
+
+            elif not looks_like_animal(label):
+                folder_name = "no_animal_review"
+                print(f"[NO ANIMAL] {image_path.name} → {label} ({score:.2f})")
+
             else:
                 folder_name = safe_folder_name(label)
 
@@ -131,7 +175,8 @@ def main():
     parser = argparse.ArgumentParser(description="Sort animal photos into folders.")
     parser.add_argument("--input", help="Folder containing unsorted photos")
     parser.add_argument("--output", help="Folder where sorted photos will be stored")
-    parser.add_argument("--confidence", type=float, default=0.35)
+    #parser.add_argument("--confidence", type=float, default=0.35)
+    parser.add_argument("--confidence", type=float, default=0.30)
     parser.add_argument("--move", action="store_true", help="Move files instead of copying")
 
     args = parser.parse_args()
