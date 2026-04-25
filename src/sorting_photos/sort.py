@@ -6,7 +6,6 @@ from PIL import Image
 from tqdm import tqdm
 
 import torch
-from torchvision.models import efficientnet_b0, EfficientNet_B0_Weights
 from torchvision.models import vit_b_16, ViT_B_16_Weights
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
@@ -87,18 +86,6 @@ def ask_yes_no(prompt: str, default: bool = False) -> bool:
 
     return value in {"y", "yes"}
 
-
-# def load_model():
-#    print("Loading AI model...")
-#
-#    weights = EfficientNet_B0_Weights.DEFAULT
-#    model = efficientnet_b0(weights=weights)
-#    model.eval()
-#
-#    preprocess = weights.transforms()
-#    labels = weights.meta["categories"]
-#
-#    return model, preprocess, labels
 
 def load_model():
     print("Loading Vision Transformer model...")

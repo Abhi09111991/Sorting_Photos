@@ -19,7 +19,7 @@ sorted_photos/
 ## 🚀 Features
 
 * Works with thousands of images (tested on large datasets)
-* Uses AI (EfficientNet) for classification
+* Uses AI (Vision Transformer model) for classification
 * Interactive (no technical knowledge required)
 * Automatically creates folders
 * Handles duplicate filenames safely
